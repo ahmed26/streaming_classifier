@@ -1,0 +1,41 @@
+h1. Streaming Classifier
+
+Example "wukong":https://github.com/infochimps/wukong script for training on and classifying massive corpora of text. Makes use
+of "ankusa":https://github.com/livingsocial/ankusa as the classifier library for scalable storage (either cassandra or hbase).
+
+h2. Dependencies
+
+@sudo gem install wukong@
+
+@sudo gem install akusa@
+
+h2. Usage
+
+Say you've got a terabyte of text to use as a training set. You've also got a cassandra ring lying around and hadoop cluster for
+compute (aws and "cluster_chef":https://github.com/infochimps/cluster_chef make this part EASY).
+
+h3. Training
+
+<pre><code>
+# with cassandra
+./streaming_classifier.rb --run --train --host=<cassandra_host> --class_field=0 --text_field=1 /path/to/input /path/to/outputw
+
+# with hbase
+./streaming_classifier.rb --run --train --storage=hbase --host=<hbase_host> --port=<hbase_port> --class_field=0 --text_field=1 /path/to/input /path/to/output
+
+# no hadoop
+cat /sample/training/data | ./streaming_classifier.rb --map --train --host=<cassandra_host> --class_field=0 --text_field=1
+</code></pre>
+
+h3. Classifying
+
+<pre><code>
+# with cassandra
+./streaming_classifier.rb --run --host=<cassandra_host> --text_field=1 /path/to/input /path/to/outputw
+
+# with hbase
+./streaming_classifier.rb --run --storage=hbase --host=<hbase_host> --port=<hbase_port> --text_field=1 /path/to/input /path/to/output
+
+# no hadoop
+cat /sample/training/data | ./streaming_classifier.rb --map --train --host=<cassandra_host> --class_field=0 --text_field=1
+</code></pre>
