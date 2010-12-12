@@ -7,7 +7,7 @@ h2. Dependencies
 
 @sudo gem install wukong@
 
-@sudo gem install akusa@
+@sudo gem install ankusa@
 
 h2. Usage
 
